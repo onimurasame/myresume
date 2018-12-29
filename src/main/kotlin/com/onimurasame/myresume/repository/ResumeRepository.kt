@@ -1,12 +1,13 @@
 package com.onimurasame.myresume.repository
 
 import com.onimurasame.myresume.data.Resume
-import org.springframework.data.repository.CrudRepository
-import org.springframework.stereotype.Repository
+import org.springframework.data.couchbase.core.query.N1qlPrimaryIndexed
+import org.springframework.data.couchbase.core.query.ViewIndexed
+import org.springframework.data.couchbase.repository.CouchbaseRepository
 
-@Repository
-interface ResumeRepository : CrudRepository<Resume, Long> {
+@N1qlPrimaryIndexed
+@ViewIndexed(designDoc = "resume")
+interface ResumeRepository : CouchbaseRepository<Resume, Long> {
 
-    fun findResumeByUserId(userId: String): Resume
-
+    fun findResumeByUserId(id: String): Resume
 }

@@ -1,47 +1,40 @@
 package com.onimurasame.myresume.data
 
-import org.hibernate.annotations.CreationTimestamp
+import com.couchbase.client.java.repository.annotation.Field
+import com.couchbase.client.java.repository.annotation.Id
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.Immutable
+import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.couchbase.core.mapping.Document
+import org.springframework.data.couchbase.core.mapping.id.GeneratedValue
+import org.springframework.data.couchbase.core.mapping.id.GenerationStrategy
 import java.io.Serializable
-import java.time.LocalDateTime
-import javax.persistence.*
+import java.util.Date
+import javax.persistence.Version
+import javax.validation.constraints.NotNull
 
-
-@Entity
-@Table(name = "Resumes")
+@Document
+@Immutable
 data class Resume(
-        @Id
-        @Column(name = "id", updatable = false, nullable = false)
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long,
-        @OneToOne
-        val user: User,
-        val version: Int,
-        @CreationTimestamp
-        val createdOn: LocalDateTime,
-        @OneToMany
-        val sections: List<Section>
+        @Id @Field @GeneratedValue(strategy = GenerationStrategy.UNIQUE) val resumeId: Long,
+        @Field @NotNull val user: User,
+        @Version val version: Long,
+        @LastModifiedDate val lastModifiedDate: Date,
+        @CreatedDate val createdDate: Date,
+        @Field val sections: List<Section>
 ) : Serializable
 
-@Entity
-@Table(name = "Users")
+@Document
 data class User(
-        @Id
-        val id: String,
-        val firstName: String,
-        val middleName: String,
-        val lastName: String
+    @Id val id: String,
+    @Field @NotNull val firstName: String,
+    @Field val middleName: String,
+    @Field @NotNull val lastName: String
 )
 
-@Entity
-@Table(name = "Sections")
+@Document
 data class Section(
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long,
-        val name: String,
-        @ElementCollection
-        @JoinTable(name = "Section_data", joinColumns = [JoinColumn(name = "SECTION_ID")])
-        @MapKeyColumn(name = "KEY")
-        @Column(name = "VALUE")
-        val data: Map<String, String>
+    @Id @GeneratedValue(strategy = GenerationStrategy.UNIQUE) val id: Long,
+    @Field @NotNull val name: String,
+    @Field val data: Map<String, kotlin.Any>
 )
