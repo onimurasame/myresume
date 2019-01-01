@@ -6,7 +6,7 @@ import com.onimurasame.myresume.repository.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Service
-import java.util.*
+import java.util.Optional
 
 @Service
 @Loggable

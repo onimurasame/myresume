@@ -7,7 +7,7 @@ import org.springframework.data.couchbase.config.AbstractCouchbaseConfiguration
 import org.springframework.data.couchbase.repository.auditing.EnableCouchbaseAuditing
 import org.springframework.data.couchbase.repository.config.EnableCouchbaseRepositories
 import org.springframework.data.domain.AuditorAware
-import java.util.*
+import java.util.Optional
 
 @Configuration
 @EnableCouchbaseAuditing(auditorAwareRef = "auditorAware")
