@@ -12,6 +12,9 @@ class ResumeService {
     @Autowired
     private lateinit var resumeRepository: ResumeRepository
 
+    @Autowired
+    private lateinit var userService: UserService
+
     fun getResumeByUserId(id: String): Resume? {
         try {
             return resumeRepository.findResumeByUserId(id)
@@ -21,6 +24,7 @@ class ResumeService {
     }
 
     fun addResume(resume: Resume): Resume {
+        userService.addUser(resume.user)
         return resumeRepository.save(resume)
     }
 }
