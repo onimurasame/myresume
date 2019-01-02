@@ -29,6 +29,19 @@ management:
       exposure:
         include: '*'
 
+logging:
+  level:
+    org:
+      apache: ERROR
+      springframework: ERROR
+    com:
+      onimurasame:
+        myresume: INFO
+      couchbase:
+        client: ERROR
+    springfox: ERROR
+
+
 info:
   app:
     name: \${spring.application.name}
